@@ -1,0 +1,56 @@
+// proto/content.proto
+syntax = "proto3";
+
+package content;
+
+service ContentService {
+  rpc GetContent(ContentRequest) returns (Content);
+  rpc ListContents(ListContentsRequest) returns (ContentList);
+  rpc AddContent(AddContentRequest) returns (Content);
+  rpc UpdateContent(UpdateContentRequest) returns (Content);
+  rpc DeleteContent(ContentRequest) returns (DeleteResponse);
+}
+
+message ContentRequest {
+  string id = 1;
+}
+
+message ListContentsRequest {
+  string type = 1; // optional filter: quran/nasheed/podcast
+}
+
+message AddContentRequest {
+  string title = 1;
+  string type = 2;
+  string author = 3;
+  int32 duration = 4;
+  string audioUrl = 5;
+}
+
+message UpdateContentRequest {
+  string id = 1;
+  string title = 2;
+  string type = 3;
+  string author = 4;
+  int32 duration = 5;
+  string audioUrl = 6;
+}
+
+message Content {
+  string id = 1;
+  string title = 2;
+  string type = 3;
+  string author = 4;
+  int32 duration = 5;
+  string audioUrl = 6;
+  string createdAt = 7;
+}
+
+message ContentList {
+  repeated Content contents = 1;
+}
+
+message DeleteResponse {
+  bool success = 1;
+  string message = 2;
+}

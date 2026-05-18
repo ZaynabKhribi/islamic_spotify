@@ -1,0 +1,42 @@
+// proto/playlist.proto
+syntax = "proto3";
+
+package playlist;
+
+service PlaylistService {
+  rpc GetPlaylist(PlaylistRequest) returns (Playlist);
+  rpc CreatePlaylist(CreatePlaylistRequest) returns (Playlist);
+  rpc AddToPlaylist(PlaylistContentRequest) returns (Playlist);
+  rpc RemoveFromPlaylist(PlaylistContentRequest) returns (Playlist);
+  rpc ListPlaylists(UserPlaylistsRequest) returns (PlaylistList);
+}
+
+message PlaylistRequest {
+  string id = 1;
+}
+
+message CreatePlaylistRequest {
+  string userId = 1;
+  string name = 2;
+}
+
+message PlaylistContentRequest {
+  string playlistId = 1;
+  string contentId = 2;
+}
+
+message UserPlaylistsRequest {
+  string userId = 1;
+}
+
+message Playlist {
+  string id = 1;
+  string userId = 2;
+  string name = 3;
+  repeated string contentIds = 4;
+  string createdAt = 5;
+}
+
+message PlaylistList {
+  repeated Playlist playlists = 1;
+}

@@ -1,0 +1,43 @@
+// proto/user.proto
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc GetUser(UserRequest) returns (User);
+  rpc CreateUser(CreateUserRequest) returns (User);
+  rpc GetFavorites(UserRequest) returns (FavoritesList);
+  rpc AddFavorite(FavoriteRequest) returns (StatusResponse);
+  rpc RemoveFavorite(FavoriteRequest) returns (StatusResponse);
+}
+
+message UserRequest {
+  string id = 1;
+}
+
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message FavoriteRequest {
+  string userId = 1;
+  string contentId = 2;
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string createdAt = 4;
+}
+
+message FavoritesList {
+  repeated string contentIds = 1;
+}
+
+message StatusResponse {
+  bool success = 1;
+  string message = 2;
+}
