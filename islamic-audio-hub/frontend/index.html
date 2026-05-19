@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Audio Hub - بسم الله الرحمن الرحيم</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #1a1a1a;
+            --accent-green: #2d6a4f;
+            --accent-green-hover: #3d8a6f;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #333333;
+            --error-color: #e63946;
+            --success-color: #2d6a4f;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Amiri', serif;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--bg-secondary);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 32px;
+            text-align: center;
+            padding: 16px 0;
+            border-bottom: 2px solid var(--accent-green);
+        }
+
+        .logo-arabic {
+            display: block;
+            font-size: 18px;
+            margin-top: 8px;
+            color: var(--text-secondary);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(45, 106, 79, 0.2);
+        }
+
+        .nav-item.active {
+            background-color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+            padding-bottom: 120px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Islamic Decorative Border */
+        .islamic-border {
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            position: relative;
+            padding: 24px;
+            background-color: var(--bg-card);
+        }
+
+        .islamic-border::before,
+        .islamic-border::after {
+            content: '۞';
+            position: absolute;
+            color: var(--accent-green);
+            font-size: 24px;
+        }
+
+        .islamic-border::before {
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-primary);
+            padding: 0 8px;
+        }
+
+        .islamic-border::after {
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-primary);
+            padding: 0 8px;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--accent-green), #1a4d3a);
+            padding: 48px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(45, 106, 79, 0.3);
+        }
+
+        .bismillah {
+            font-family: 'Amiri', serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-text {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Category Cards */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .category-card {
+            background-color: var(--bg-card);
+            padding: 32px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(45, 106, 79, 0.2);
+        }
+
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .category-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .category-count {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Content Grid */
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-green);
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .content-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .content-card:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 4px 16px rgba(45, 106, 79, 0.2);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .content-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .content-author {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .type-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .type-quran {
+            background-color: rgba(45, 106, 79, 0.3);
+            color: #4ade80;
+        }
+
+        .type-nasheed {
+            background-color: rgba(139, 92, 246, 0.3);
+            color: #c084fc;
+        }
+
+        .type-podcast {
+            background-color: rgba(249, 115, 22, 0.3);
+            color: #fb923c;
+        }
+
+        .content-duration {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 12px 0;
+        }
+
+        .content-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-green);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .btn-icon {
+            padding: 10px;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        /* Messages */
+        .message {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message-success {
+            background-color: rgba(45, 106, 79, 0.2);
+            border: 1px solid var(--success-color);
+            color: #4ade80;
+        }
+
+        .message-error {
+            background-color: rgba(230, 57, 70, 0.2);
+            border: 1px solid var(--error-color);
+            color: #ff6b6b;
+        }
+
+        /* Player Bar */
+        .player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 24px;
+            z-index: 1000;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 250px;
+        }
+
+        .player-cover {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent-green), #1a4d3a);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .player-details {
+            flex: 1;
+        }
+
+        .player-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .player-artist {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            color: var(--accent-green);
+        }
+
+        .control-btn.play-btn {
+            width: 48px;
+            height: 48px;
+            background-color: var(--accent-green);
+            color: white;
+        }
+
+        .control-btn.play-btn:hover {
+            background-color: var(--accent-green-hover);
+            transform: scale(1.05);
+        }
+
+        .player-volume {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 150px;
+        }
+
+        /* User Profile Card */
+        .user-card {
+            background-color: var(--bg-card);
+            padding: 24px;
+            border-radius: 12px;
+            border: 2px solid var(--accent-green);
+            margin-top: 24px;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-green), #1a4d3a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 16px;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .user-email {
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .user-id {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-family: monospace;
+        }
+
+        /* Playlist */
+        .playlist-item {
+            background-color: var(--bg-card);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .playlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .playlist-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .playlist-count {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .playlist-contents {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .playlist-content-item {
+            padding: 12px;
+            background-color: rgba(45, 106, 79, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-green);
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-green);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 64px 32px;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 18px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .content-area {
+                padding: 16px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .player-bar {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 16px;
+            }
+
+            .player-controls {
+                order: 3;
+                width: 100%;
+                margin-top: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                position: fixed;
+                left: -250px;
+                z-index: 999;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        /* Favorites Grid */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .favorite-item {
+            background-color: var(--bg-card);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .favorite-id {
+            font-family: monospace;
+            color: var(--accent-green);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                Islamic Audio Hub
+                <span class="logo-arabic">بسم الله الرحمن الرحيم</span>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item active" data-section="home">
+                        <span class="nav-icon">🏠</span>
+                        <span>Home</span>
+                    </li>
+                    <li class="nav-item" data-section="library">
+                        <span class="nav-icon">📚</span>
+                        <span>Library</span>
+                    </li>
+                    <li class="nav-item" data-section="add-content">
+                        <span class="nav-icon">➕</span>
+                        <span>Add Content</span>
+                    </li>
+                    <li class="nav-item" data-section="users">
+                        <span class="nav-icon">👤</span>
+                        <span>Users</span>
+                    </li>
+                    <li class="nav-item" data-section="playlists">
+                        <span class="nav-icon">🎵</span>
+                        <span>Playlists</span>
+                    </li>
+                    <li class="nav-item" data-section="play-tester">
+                        <span class="nav-icon">▶️</span>
+                        <span>Play Tester</span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-area">
+                <!-- Home Section -->
+                <section id="home" class="section active">
+                    <div class="welcome-banner">
+                        <div class="bismillah">بسم الله الرحمن الرحيم</div>
+                        <div class="welcome-text">Welcome to Islamic Audio Hub - Your source for Quran, Nasheeds, and Islamic Podcasts</div>
+                    </div>
+
+                    <div class="category-grid">
+                        <div class="category-card" data-filter="quran">
+                            <div class="category-icon">📖</div>
+                            <div class="category-title">Quran Recitations</div>
+                            <div class="category-count" id="quran-count">Loading...</div>
+                        </div>
+                        <div class="category-card" data-filter="nasheed">
+                            <div class="category-icon">🎵</div>
+                            <div class="category-title">Nasheeds</div>
+                            <div class="category-count" id="nasheed-count">Loading...</div>
+                        </div>
+                        <div class="category-card" data-filter="podcast">
+                            <div class="category-icon">🎙️</div>
+                            <div class="category-title">Podcasts</div>
+                            <div class="category-count" id="podcast-count">Loading...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Library Section -->
+                <section id="library" class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Content Library</h2>
+                        <button class="btn btn-primary" onclick="loadContents()">🔄 Refresh</button>
+                    </div>
+
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="quran">Quran</button>
+                        <button class="filter-btn" data-filter="nasheed">Nasheed</button>
+                        <button class="filter-btn" data-filter="podcast">Podcast</button>
+                    </div>
+
+                    <div id="content-grid" class="content-grid">
+                        <div class="empty-state">
+                            <div class="empty-icon">📚</div>
+                            <div class="empty-text">Loading content...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Add Content Section -->
+                <section id="add-content" class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Add New Content</h2>
+                    </div>
+
+                    <div class="form-container islamic-border">
+                        <div id="add-content-message" class="message"></div>
+                        
+                        <form id="add-content-form">
+                            <div class="form-group">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-input" id="content-title" required placeholder="e.g., Surah Al-Fatiha">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Author</label>
+                                <input type="text" class="form-input" id="content-author" required placeholder="e.g., Sheikh Mishary Rashid">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Type</label>
+                                <select class="form-select" id="content-type" required>
+                                    <option value="">Select type...</option>
+                                    <option value="quran">Quran</option>
+                                    <option value="nasheed">Nasheed</option>
+                                    <option value="podcast">Podcast</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Duration (seconds)</label>
+                                <input type="number" class="form-input" id="content-duration" required placeholder="e.g., 180">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Audio URL</label>
+                                <input type="url" class="form-input" id="content-url" required placeholder="https://example.com/audio.mp3">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                ➕ Add Content
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="users" class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">User Management</h2>
+                    </div>
+
+                    <div class="form-container islamic-border">
+                        <h3 style="margin-bottom: 20px;">Register New User</h3>
+                        <div id="user-message" class="message"></div>
+                        
+                        <form id="register-form">
+                            <div class="form-group">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-input" id="user-username" required placeholder="Enter username">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" id="user-email" required placeholder="user@example.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-input" id="user-password" required placeholder="Enter password">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                👤 Register User
+                            </button>
+                        </form>
+                    </div>
+
+                    <div id="user-profile-container"></div>
+                </section>
+
+                <!-- Playlists Section -->
+                <section id="playlists" class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Playlists</h2>
+                    </div>
+
+                    <div class="form-container islamic-border">
+                        <h3 style="margin-bottom: 20px;">Create New Playlist</h3>
+                        <div id="playlist-message" class="message"></div>
+                        
+                        <form id="create-playlist-form">
+                            <div class="form-group">
+                                <label class="form-label">Playlist Name</label>
+                                <input type="text" class="form-input" id="playlist-name" required placeholder="e.g., Morning Quran">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">User ID (Register a user first)</label>
+                                <input type="text" class="form-input" id="playlist-user-id" required placeholder="Paste user ID here">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                🎵 Create Playlist
+                            </button>
+                        </form>
+                    </div>
+
+                    <div id="playlists-container" style="margin-top: 32px;">
+                        <div class="empty-state">
+                            <div class="empty-icon">🎵</div>
+                            <div class="empty-text">No playlists yet. Create one above!</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Play Tester Section -->
+                <section id="play-tester" class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Play Event Tester</h2>
+                    </div>
+
+                    <div class="form-container islamic-border">
+                        <h3 style="margin-bottom: 20px;">Test Kafka Play Events</h3>
+                        <div id="play-message" class="message"></div>
+                        
+                        <form id="play-test-form">
+                            <div class="form-group">
+                                <label class="form-label">Content ID</label>
+                                <input type="text" class="form-input" id="play-content-id" required placeholder="Paste content ID here">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">User ID</label>
+                                <input type="text" class="form-input" id="play-user-id" required placeholder="Paste user ID here">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                ▶️ Trigger Play Event
+                            </button>
+                        </form>
+
+                        <div style="margin-top: 24px; padding: 16px; background-color: rgba(45, 106, 79, 0.1); border-radius: 8px; border-left: 4px solid var(--accent-green);">
+                            <strong>💡 Tip:</strong> After clicking "Trigger Play Event", check your terminal windows for Kafka event logs in the Content Service and User Service!
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Player Bar -->
+            <div class="player-bar">
+                <div class="player-info">
+                    <div class="player-cover">🎵</div>
+                    <div class="player-details">
+                        <div class="player-title">No content playing</div>
+                        <div class="player-artist">Select content to play</div>
+                    </div>
+                </div>
+
+                <div class="player-controls">
+                    <button class="control-btn" id="prev-btn">⏮️</button>
+                    <button class="control-btn play-btn" id="play-pause-btn">▶️</button>
+                    <button class="control-btn" id="next-btn">⏭️</button>
+                </div>
+
+                <div class="player-volume">
+                    <span id="volume-icon">🔊</span>
+                    <input type="range" min="0" max="100" value="70" id="volume-slider" style="flex: 1;">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden Audio Element -->
+    <audio id="audio-player" preload="metadata"></audio>
+
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:4000';
+
+        // State Management
+        let currentUser = null;
+        let contents = [];
+        let playlists = [];
+        let currentFilter = 'all';
+        let currentPlayingIndex = -1;
+        let currentPlaylist = [];
+
+        // Utility Functions
+        function showMessage(elementId, message, type) {
+            const messageEl = document.getElementById(elementId);
+            messageEl.textContent = message;
+            messageEl.className = `message ${type === 'success' ? 'message-success' : 'message-error'} show`;
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 5000);
+        }
+
+        function formatDuration(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    }
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'API request failed');
+                }
+
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // Navigation
+        function initNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.section');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const sectionId = item.getAttribute('data-section');
+
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+
+                    sections.forEach(section => section.classList.remove('active'));
+                    document.getElementById(sectionId).classList.add('active');
+
+                    if (sectionId === 'library') {
+                        loadContents();
+                    }
+                });
+            });
+        }
+
+        // Content Management
+        async function loadContents() {
+            try {
+                const response = await apiCall('/api/contents');
+                contents = response.data || [];
+                
+                updateCategoryCounts();
+                renderContents();
+            } catch (error) {
+                console.error('Failed to load contents:', error);
+                document.getElementById('content-grid').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">❌</div>
+                        <div class="empty-text">Failed to load content. Make sure the backend is running!</div>
+                    </div>
+                `;
+            }
+        }
+
+        function updateCategoryCounts() {
+            const quranCount = contents.filter(c => c.type === 'quran').length;
+            const nasheedCount = contents.filter(c => c.type === 'nasheed').length;
+            const podcastCount = contents.filter(c => c.type === 'podcast').length;
+
+            document.getElementById('quran-count').textContent = `${quranCount} recitations`;
+            document.getElementById('nasheed-count').textContent = `${nasheedCount} nasheeds`;
+            document.getElementById('podcast-count').textContent = `${podcastCount} podcasts`;
+        }
+
+        function renderContents() {
+            const grid = document.getElementById('content-grid');
+            
+            const filteredContents = currentFilter === 'all' 
+                ? contents 
+                : contents.filter(c => c.type === currentFilter);
+
+            if (filteredContents.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📚</div>
+                        <div class="empty-text">No content found. Add some content to get started!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Update current playlist for next/previous functionality
+            currentPlaylist = filteredContents;
+
+            grid.innerHTML = filteredContents.map((content, index) => `
+                <div class="content-card">
+                    <div class="content-header">
+                        <div>
+                            <div class="content-title">${content.title}</div>
+                            <div class="content-author">${content.author}</div>
+                        </div>
+                        <span class="type-badge type-${content.type}">${content.type}</span>
+                    </div>
+                    <div class="content-duration">⏱️ ${formatDuration(content.duration)}</div>
+                    <div class="content-actions">
+                        <button class="btn btn-primary" onclick="playContent(${index}, '${content.id}', '${content.title}', '${content.author}', '${content.audioUrl}')">
+                            ▶️ Play
+                        </button>
+                        <button class="btn-icon" onclick="addToFavorites('${content.id}')" title="Add to Favorites">
+                            ❤️
+                        </button>
+                        <button class="btn-icon" onclick="showAddToPlaylist('${content.id}')" title="Add to Playlist">
+                            ➕
+                        </button>
+                        <button class="btn-icon" onclick="deleteContent('${content.id}', '${content.title}')" title="Delete" style="color: #e63946;">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function playContent(index, contentId, title, author, audioUrl) {
+            currentPlayingIndex = index;
+            
+            // Get audio element
+            const audio = document.getElementById('audio-player');
+            
+            // Update player UI
+            document.querySelector('.player-title').textContent = title;
+            document.querySelector('.player-artist').textContent = author;
+            
+            // Set audio source and play
+            audio.src = audioUrl;
+            audio.play().then(() => {
+                document.getElementById('play-pause-btn').textContent = '⏸️';
+                console.log(`▶️ Playing: ${title} by ${author}`);
+                
+                // Show notification
+                showNotification('▶️ Now Playing', `${title} by ${author}`);
+            }).catch(error => {
+                console.error('Error playing audio:', error);
+                showNotification('❌ Error', 'Failed to play audio. Check the audio URL.');
+            });
+        }
+
+        async function addToFavorites(contentId) {
+            if (!currentUser) {
+                alert('Please register a user first in the Users section!');
+                return;
+            }
+
+            try {
+                await apiCall(`/api/users/${currentUser.id}/favorites`, {
+                    method: 'POST',
+                    body: JSON.stringify({ contentId })
+                });
+                alert('Added to favorites! ❤️');
+            } catch (error) {
+                alert('Failed to add to favorites: ' + error.message);
+            }
+        }
+
+        function showAddToPlaylist(contentId) {
+            const playlistId = prompt('Enter Playlist ID:');
+            if (playlistId) {
+                addToPlaylist(playlistId, contentId);
+            }
+        }
+
+        async function addToPlaylist(playlistId, contentId) {
+            try {
+                await apiCall(`/api/playlists/${playlistId}/add`, {
+                    method: 'POST',
+                    body: JSON.stringify({ contentId })
+                });
+                alert('Added to playlist! 🎵');
+            } catch (error) {
+                alert('Failed to add to playlist: ' + error.message);
+            }
+        }
+
+        // Delete Content
+        async function deleteContent(contentId, title) {
+            // Confirm deletion
+            const confirmed = confirm(`Are you sure you want to delete "${title}"?\n\nThis action cannot be undone.`);
+            
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                await apiCall(`/api/contents/${contentId}`, {
+                    method: 'DELETE'
+                });
+                
+                showNotification('✅ Deleted', `"${title}" has been deleted`);
+                
+                // Reload contents
+                await loadContents();
+            } catch (error) {
+                console.error('Failed to delete content:', error);
+                showNotification('❌ Delete Failed', error.message);
+            }
+        }
+
+        // Filter Management
+        function initFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    currentFilter = btn.getAttribute('data-filter');
+                    renderContents();
+                });
+            });
+
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const filter = card.getAttribute('data-filter');
+                    currentFilter = filter;
+                    
+                    document.querySelector('[data-section="library"]').click();
+                    
+                    setTimeout(() => {
+                        const filterBtn = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+                        filterButtons.forEach(b => b.classList.remove('active'));
+                        filterBtn.classList.add('active');
+                        renderContents();
+                    }, 100);
+                });
+            });
+        }
+
+        // Add Content Form
+        function initAddContentForm() {
+            const form = document.getElementById('add-content-form');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const contentData = {
+                    title: document.getElementById('content-title').value,
+                    author: document.getElementById('content-author').value,
+                    type: document.getElementById('content-type').value,
+                    duration: parseInt(document.getElementById('content-duration').value),
+                    audioUrl: document.getElementById('content-url').value
+                };
+
+                try {
+                    const response = await apiCall('/api/contents', {
+                        method: 'POST',
+                        body: JSON.stringify(contentData)
+                    });
+
+                    showMessage('add-content-message', `✅ Content "${contentData.title}" added successfully!`, 'success');
+                    form.reset();
+                    
+                    await loadContents();
+                } catch (error) {
+                    showMessage('add-content-message', `❌ Failed to add content: ${error.message}`, 'error');
+                }
+            });
+        }
+
+        // User Registration
+        function initUserForm() {
+            const form = document.getElementById('register-form');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const userData = {
+                    username: document.getElementById('user-username').value,
+                    email: document.getElementById('user-email').value,
+                    password: document.getElementById('user-password').value
+                };
+
+                try {
+                    const response = await apiCall('/api/users/register', {
+                        method: 'POST',
+                        body: JSON.stringify(userData)
+                    });
+
+                    currentUser = response.data;
+                    showMessage('user-message', `✅ User "${userData.username}" registered successfully!`, 'success');
+                    form.reset();
+                    
+                    renderUserProfile();
+                } catch (error) {
+                    showMessage('user-message', `❌ Failed to register user: ${error.message}`, 'error');
+                }
+            });
+        }
+
+        function renderUserProfile() {
+            if (!currentUser) return;
+
+            const container = document.getElementById('user-profile-container');
+            container.innerHTML = `
+                <div class="user-card">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <div class="user-name">${currentUser.username}</div>
+                        <div class="user-email">${currentUser.email}</div>
+                        <div class="user-id">ID: ${currentUser.id}</div>
+                        <button class="btn btn-primary" onclick="loadUserFavorites()" style="margin-top: 16px;">
+                            ❤️ View Favorites
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadUserFavorites() {
+            if (!currentUser) {
+                alert('No user logged in!');
+                return;
+            }
+
+            try {
+                const response = await apiCall(`/api/users/${currentUser.id}/favorites`);
+                const favoriteIds = response.data || [];
+
+                if (favoriteIds.length === 0) {
+                    alert('No favorites yet!');
+                    return;
+                }
+
+                const container = document.getElementById('user-profile-container');
+                container.innerHTML += `
+                    <div style="margin-top: 24px;">
+                        <h3 style="margin-bottom: 16px;">Your Favorites (${favoriteIds.length})</h3>
+                        <div class="favorites-grid">
+                            ${favoriteIds.map(id => `
+                                <div class="favorite-item">
+                                    <div>❤️</div>
+                                    <div class="favorite-id">${id}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                alert('Failed to load favorites: ' + error.message);
+            }
+        }
+
+        // Playlist Management
+        function initPlaylistForm() {
+            const form = document.getElementById('create-playlist-form');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const playlistData = {
+                    userId: document.getElementById('playlist-user-id').value,
+                    name: document.getElementById('playlist-name').value
+                };
+
+                try {
+                    const response = await apiCall('/api/playlists', {
+                        method: 'POST',
+                        body: JSON.stringify(playlistData)
+                    });
+
+                    showMessage('playlist-message', `✅ Playlist "${playlistData.name}" created successfully!`, 'success');
+                    form.reset();
+                    
+                    playlists.push(response.data);
+                    renderPlaylists();
+                } catch (error) {
+                    showMessage('playlist-message', `❌ Failed to create playlist: ${error.message}`, 'error');
+                }
+            });
+        }
+
+        function renderPlaylists() {
+            const container = document.getElementById('playlists-container');
+            
+            if (playlists.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🎵</div>
+                        <div class="empty-text">No playlists yet. Create one above!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = playlists.map(playlist => `
+                <div class="playlist-item">
+                    <div class="playlist-header">
+                        <div class="playlist-name">${playlist.name}</div>
+                        <div class="playlist-count">${playlist.contentIds.length} items</div>
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: 12px; font-family: monospace;">
+                        ID: ${playlist.id}
+                    </div>
+                    ${playlist.contentIds.length > 0 ? `
+                        <div class="playlist-contents">
+                            ${playlist.contentIds.map(id => `
+                                <div class="playlist-content-item">🎵 ${id}</div>
+                            `).join('')}
+                        </div>
+                    ` : '<div style="margin-top: 12px; color: var(--text-secondary);">No content yet</div>'}
+                </div>
+            `).join('');
+        }
+
+        // Play Event Tester
+        function initPlayTester() {
+            const form = document.getElementById('play-test-form');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const contentId = document.getElementById('play-content-id').value;
+                const userId = document.getElementById('play-user-id').value;
+
+                try {
+                    await apiCall(`/api/contents/${contentId}/play`, {
+                        method: 'POST',
+                        body: JSON.stringify({ userId })
+                    });
+
+                    showMessage('play-message', 
+                        `✅ Play event triggered! Check your terminal for Kafka logs in Content Service and User Service.`, 
+                        'success'
+                    );
+                } catch (error) {
+                    showMessage('play-message', `❌ Failed to trigger play event: ${error.message}`, 'error');
+                }
+            });
+        }
+
+        // Initialize App
+        async function initApp() {
+            console.log('🚀 Islamic Audio Hub - Initializing...');
+            
+            initNavigation();
+            initFilters();
+            initAddContentForm();
+            initUserForm();
+            initPlaylistForm();
+            initPlayTester();
+            initPlayerControls();
+            
+            await loadContents();
+            
+            console.log('✅ App initialized successfully!');
+        }
+
+        // Initialize Player Controls
+        function initPlayerControls() {
+            const audio = document.getElementById('audio-player');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const volumeSlider = document.getElementById('volume-slider');
+            const volumeIcon = document.getElementById('volume-icon');
+            
+            // Play/Pause button
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            });
+            
+            // Audio event listeners
+            audio.addEventListener('play', () => {
+                playPauseBtn.textContent = '⏸️';
+            });
+            
+            audio.addEventListener('pause', () => {
+                playPauseBtn.textContent = '▶️';
+            });
+            
+            audio.addEventListener('ended', () => {
+                playPauseBtn.textContent = '▶️';
+                showNotification('✅ Finished', 'Track ended');
+                // Auto-play next track
+                playNext();
+            });
+            
+            audio.addEventListener('error', (e) => {
+                console.error('Audio error:', e);
+                showNotification('❌ Error', 'Failed to load audio. Check the URL.');
+                playPauseBtn.textContent = '▶️';
+            });
+            
+            // Volume control
+            volumeSlider.addEventListener('input', (e) => {
+                const volume = e.target.value / 100;
+                audio.volume = volume;
+                
+                // Update volume icon
+                if (volume === 0) {
+                    volumeIcon.textContent = '🔇';
+                } else if (volume < 0.5) {
+                    volumeIcon.textContent = '🔉';
+                } else {
+                    volumeIcon.textContent = '🔊';
+                }
+            });
+            
+            // Set initial volume
+            audio.volume = 0.7;
+            
+            // Previous button
+            prevBtn.addEventListener('click', () => {
+                playPrevious();
+            });
+            
+            // Next button
+            nextBtn.addEventListener('click', () => {
+                playNext();
+            });
+        }
+
+        // Play previous track
+        function playPrevious() {
+            if (currentPlaylist.length === 0) {
+                showNotification('⏮️ Previous', 'No playlist loaded');
+                return;
+            }
+            
+            currentPlayingIndex--;
+            if (currentPlayingIndex < 0) {
+                currentPlayingIndex = currentPlaylist.length - 1; // Loop to end
+            }
+            
+            const content = currentPlaylist[currentPlayingIndex];
+            playContent(currentPlayingIndex, content.id, content.title, content.author, content.audioUrl);
+        }
+
+        // Play next track
+        function playNext() {
+            if (currentPlaylist.length === 0) {
+                showNotification('⏭️ Next', 'No playlist loaded');
+                return;
+            }
+            
+            currentPlayingIndex++;
+            if (currentPlayingIndex >= currentPlaylist.length) {
+                currentPlayingIndex = 0; // Loop to start
+            }
+            
+            const content = currentPlaylist[currentPlayingIndex];
+            playContent(currentPlayingIndex, content.id, content.title, content.author, content.audioUrl);
+        }
+
+        // Show notification helper
+        function showNotification(title, message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #2d6a4f, #1a4d3a);
+                color: white;
+                padding: 16px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+                font-family: 'Inter', sans-serif;
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div>
+                        <div style="font-weight: 600;">${title}</div>
+                        <div style="font-size: 14px; opacity: 0.9;">${message}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Add animation styles if not already present
+            if (!document.getElementById('notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(400px); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(400px); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
