@@ -5,7 +5,7 @@ A microservices-based platform for Islamic audio content (Quran recitations, Nas
 ## Architecture Overview
 
 This project consists of 3 microservices communicating via gRPC, with Kafka for async messaging, and a unified API Gateway exposing both REST and GraphQL endpoints.
-![architecture](architeture.png)
+![architecture](architecture.png)
 
 ### Microservices
 
